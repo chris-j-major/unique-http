@@ -4,14 +4,9 @@ var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-var id = 0;
-app.get('/', function (req, res) {
-  id ++;
-  res.setHeader('Content-Type', 'image/svg+xml');
-  res.send(unique.start(id).writeXML( true /* pretty */ ));
-});
+app.use(express.static(__dirname + '/public'));
 
-app.get('/:id', function (req, res) {
+app.get('/gen/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'image/svg+xml');
   res.send(unique.start(req.params.id).writeXML( true /* pretty */ ));
 });
