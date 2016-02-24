@@ -3,6 +3,8 @@ var pg = require('pg');
 var unique = require('unique-wallpaper')({});
 var app = express();
 
+var wallpaperVersion = require('./node_modules/unique-wallpaper/package.json').version;
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
@@ -22,7 +24,8 @@ app.post('/vote', function (request, response) {
     var bad1 = request.query.bad1;
     var bad2 = request.query.bad2;
     var ip = request.connection.remoteAddress;
-    client.query('INSERT INTO results(best,bad1,bad2,ip) VALUES ($1,$2,$3,$4)', [best,bad1,bad2,ip] , function(err) {
+    var pos = request.query.pos;
+    client.query('INSERT INTO results(best,bad1,bad2,ip,version,position) VALUES ($1,$2,$3,$4,$5,$6)', [best,bad1,bad2,ip,wallpaperVersion,pos] , function(err) {
       done();
       if (err){
         console.error(err);
@@ -48,7 +51,7 @@ app.get('/data', function (request, response) {
          var str = "best,bad,bad,ip,timestamp\n";
          for ( var rowid in result.rows ){
            var r = result.rows[rowid];
-           str+= r.best+","+r.bad1+","+r.bad2+","+r.ip+","+r.my_timestamp+"\n";
+           str+= r.best+","+r.bad1+","+r.bad2+","+r.ip+","+r.my_timestamp+","+r.version+","+r.position+"\n";
          }
          response.attachment('data.csv').send(str);
        }
@@ -57,5 +60,5 @@ app.get('/data', function (request, response) {
 })
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('Node app is running on port', app.get('port'), "\nUsing wallpaper version ", wallpaperVersion);
 });

@@ -23,7 +23,7 @@ $(function(){
       var n = activeSet.indexOf(best);
       activeSet.splice( n , 1 );
       var others = activeSet;
-      $.post( "vote?best="+best+"&bad1="+activeSet[0]+"&bad2="+activeSet[1], function( data ) {
+      $.post( "vote?best="+best+"&bad1="+activeSet[0]+"&bad2="+activeSet[1]+"&pos="+n, function( data ) {
         // ignore
         console.log(data);
       });
