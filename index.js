@@ -23,7 +23,7 @@ app.post('/vote', function (request, response) {
     var best = request.query.best;
     var bad1 = request.query.bad1;
     var bad2 = request.query.bad2;
-    var ip = request.connection.remoteAddress;
+    var ip = getClientIp(request);
     var pos = request.query.pos;
     client.query('INSERT INTO results(best,bad1,bad2,ip,version,position) VALUES ($1,$2,$3,$4,$5,$6)', [best,bad1,bad2,ip,wallpaperVersion,pos] , function(err) {
       done();
@@ -37,6 +37,24 @@ app.post('/vote', function (request, response) {
   });
 });
 
+function getClientIp(req) {
+  var ipAddress;
+  // Amazon EC2 / Heroku workaround to get real client IP
+  var forwardedIpsStr = req.header('x-forwarded-for');
+  if (forwardedIpsStr) {
+    // 'x-forwarded-for' header may return multiple IP addresses in
+    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
+    // the first one
+    var forwardedIps = forwardedIpsStr.split(',');
+    ipAddress = forwardedIps[0];
+  }
+  if (!ipAddress) {
+    // Ensure getting client IP address still works in
+    // development environment
+    ipAddress = req.connection.remoteAddress;
+  }
+  return ipAddress;
+};
 
 app.get('/data', function (request, response) {
   pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
