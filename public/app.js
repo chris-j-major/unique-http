@@ -18,8 +18,8 @@ $(function(){
   $( "body" ).on( "click", "button", function(event) {
     var target = $(event.target);
     var sample = target.closest(".sample");
-    if ( sample ){
-      var best = sample.data("seed");
+    var best = sample.data("seed");
+    if ( best ){
       var n = activeSet.indexOf(best);
       activeSet.splice( n , 1 );
       var others = activeSet;
