@@ -20,6 +20,11 @@ $(function(){
     });
   }
 
+  $( "body" ).on( "click", "img", function(event) {
+    var target = $(event.target);
+    window.open(target.attr('src'), 'name'); 
+  });
+
   $( "body" ).on( "click", "button.more", function(event) {
     pickRandoms(3);
   });
