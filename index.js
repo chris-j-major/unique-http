@@ -11,7 +11,12 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/gen/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'image/svg+xml');
-  res.send(unique.start(req.params.id).writeXML( true /* pretty */ ));
+  res.send(unique.start(req.params.id).writeXML( false /* pretty */ ));
+});
+
+app.get('/details/:id(\\d+)', function (req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(unique.start(req.params.id).describe());
 });
 
 var DEFAULT_DB = "postgres://localhost:5432/results";
@@ -75,8 +80,24 @@ app.get('/data', function (request, response) {
        }
     });
   });
-})
+});
+
+app.get('/best', function (request, response) {
+  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
+    if ( err )
+     { console.error(err); return response.send("Error " + err); }
+    client.query('SELECT best, count(*) AS c FROM results WHERE version=$1 GROUP BY best ORDER BY c DESC LIMIT 20',[wallpaperVersion], function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       {
+         response.send( result.rows );
+       }
+    });
+  });
+});
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'), "\nUsing wallpaper version ", wallpaperVersion);
+  console.log('Node app is running on port', app.get('port'), " using wallpaper version ", wallpaperVersion);
 });
