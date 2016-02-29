@@ -22,7 +22,7 @@ $(function(){
 
   $( "body" ).on( "click", "img", function(event) {
     var target = $(event.target);
-    window.open(target.attr('src'), 'name'); 
+    window.open(target.attr('src'), 'name');
   });
 
   $( "body" ).on( "click", "button.more", function(event) {
@@ -38,9 +38,8 @@ $(function(){
     var others = activeSet;
     $.post( "vote?best="+best+"&bad1="+activeSet[0]+"&bad2="+activeSet[1]+"&pos="+n, function( data ) {
       // ignore
-      console.log(data);
     });
-    pickRandoms();
+    pickRandoms(3);
   });
 
 
