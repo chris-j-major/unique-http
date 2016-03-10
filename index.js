@@ -1,9 +1,14 @@
 var express = require('express');
 var pg = require('pg');
 var unique = require('unique-wallpaper')({});
+var Words = require('elegant-words');
+var randomSeed = require('random-seed');
 var app = express();
 
 var wallpaperVersion = require('./node_modules/unique-wallpaper/package.json').version;
+
+var words = new Words();
+words.loadJSONModel( require("./blurbs.json") );
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -17,6 +22,12 @@ app.get('/gen/:id(\\d+)', function (req, res) {
 app.get('/details/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   res.send(unique.start(req.params.id).describe());
+});
+
+app.get('/blurb/:id(\\d+)', function (req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  var r = new randomSeed(req.params.id);
+  res.send(words.generate({ random:r.random() }).toString());
 });
 
 var DEFAULT_DB = "postgres://localhost:5432/results";
