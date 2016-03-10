@@ -27,7 +27,7 @@ app.get('/details/:id(\\d+)', function (req, res) {
 app.get('/blurb/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var r = new randomSeed(req.params.id);
-  res.send(words.generate({ random:r.random() }).toString());
+  res.send(words.generate({ random:r.random }).toString());
 });
 
 var DEFAULT_DB = "postgres://localhost:5432/results";
