@@ -1,6 +1,8 @@
 var express = require('express');
 var pg = require('pg');
-var unique = require('unique-wallpaper')({swatch:true});
+var unique = require('unique-wallpaper')({
+    swatch:false // debug only
+  });
 var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
