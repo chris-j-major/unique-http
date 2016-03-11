@@ -1,42 +1,7 @@
 {
   "S":[
-    "The [author] has here attmpted to convey [emotion], but failed.",
-    "The [author] has here attmpted to convey [emotion], with some success.",
-    "This work lacks the [emotion] and [colour] of the [author]s earlier works.",
-    "Composition aside, this clearly shows [emotion] through the use of [colour].",
-    "[Emotion] is evident, talent is less so. Don't like the [colour].",
-    "[Title] evokes deep feelings of [emotion] in many people.",
-    "Few works are as forgettable as '[Title]' - lacking any [emotion].",
-    "[Author]s use of [colour] in [Title] demostrates awareness, if not depth."
-  ],
-  "EMOTION":[
-    "happiness",
-    "sadness",
-    "despair",
-    "hate",
-    "ecstatic joy",
-    "herbal tea",
-    "trancendental omnipressence"
-  ],
-  "AUTHOR":[
-    "artist",
-    "so called 'artist'",
-    "celbrated artist"
-  ],
-  "TITLE":[
-    "untitled [number]",
-    "[emotion]-[emotion]"
-  ],
-  "NUMBER":[
-    "[NONZERO][DIGITS][DIGITS][DIGITS]",
-    "[NONZERO][DIGITS][DIGITS]",
-    "[NONZERO][DIGITS]",
-    "[DIGITS]"
-  ],
-  "NONZERO":[
-    "1","2","3","4","5","6","7","8","9"
-  ],
-  "DIGITS":[
-    "0","1","2","3","4","5","6","7","8","9"
+    "[Color] - [Shape]",
+    "[Color]",
+    "[Shape]"
   ]
 }
