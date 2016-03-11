@@ -1,6 +1,12 @@
 {
   "S":[
-    "The [author] has here attmpted to convey [emotion], but failed."
+    "The [author] has here attmpted to convey [emotion], but failed.",
+    "The [author] has here attmpted to convey [emotion], with some success.",
+    "This work lacks the [emotion] of the [author]s earlier works.",
+    "Composition aside, this clearly shows [emotion] and [emotion].",
+    "[Emotion] is evident, talent is less so.",
+    "[Title] evokes deep feelings of [emotion] in many people.",
+    "Few works are as forgettable as '[Title]' - lacking any [emotion]."
   ],
   "EMOTION":[
     "happiness",
@@ -8,11 +14,28 @@
     "despair",
     "hate",
     "ecstatic joy",
-    "herbal tea"
+    "herbal tea",
+    "trancendental omnipressence"
   ],
   "AUTHOR":[
     "artist",
     "so called 'artist'",
     "celbrated artist"
+  ],
+  "TITLE":[
+    "untitled [number]",
+    "[emotion]-[emotion]"
+  ],
+  "NUMBER":[
+    "[NONZERO][DIGITS][DIGITS][DIGITS]",
+    "[NONZERO][DIGITS][DIGITS]",
+    "[NONZERO][DIGITS]",
+    "[DIGITS]"
+  ],
+  "NONZERO":[
+    "1","2","3","4","5","6","7","8","9"
+  ],
+  "DIGITS":[
+    "0","1","2","3","4","5","6","7","8","9"
   ]
 }
