@@ -1,6 +1,6 @@
 var express = require('express');
 var pg = require('pg');
-var unique = require('unique-wallpaper')({});
+var unique = require('unique-wallpaper')({swatch:true});
 var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
@@ -13,18 +13,22 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/gen/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'image/svg+xml');
-  res.send(unique.start(req.params.id).writeXML( false /* pretty */ ));
+  var r = new randomSeed(req.params.id);
+  res.send(unique.start(r.random).writeXML( false /* pretty */ ));
 });
 
 app.get('/details/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
-  res.send(unique.start(req.params.id).describe());
+  var r = new randomSeed(req.params.id);
+  res.send(unique.start(r.random).describe());
 });
 
 app.get('/blurb/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var r = new randomSeed(req.params.id);
-  res.send( blurbs.toString( r.random , unique.start(req.params.id) ) );
+  var b = blurbs.toString( r.random , unique.start(r.random) );
+  console.log( req.params.id +" => "+ b );
+  res.send( b );
 });
 
 var DEFAULT_DB = "postgres://localhost:5432/results";
