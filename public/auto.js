@@ -31,11 +31,31 @@ function slideFrames(){
   active = t;
   setTimeout( loadNew , 5000 )
 }
-var index = 3;
+
 function loadNew(){
-  inactive.load( index++ , slideFrames );
+  inactive.load( getNextImage()  , slideFrames );
 }
 
+var toLoadList = [];
+function fetchMore(){
+  $.get( "best" ,function(data){
+    list = data.map(function(n){return n.best});
+    toLoadList = toLoadList.concat(list);
+  });
+}
+function getNextImage(){
+  var next = 0;
+  if ( toLoadList.length > 0 ){
+    next = toLoadList.splice(0,1)[0];
+  }
+  if ( toLoadList.length < 3 ){
+    fetchMore();
+  }
+  console.log(next);
+  return next;
+}
+
+fetchMore();
 $(function(){
   // construct two frames (to allow sliding)
   var frame1 = new Frame("frame1");
@@ -52,8 +72,8 @@ $(function(){
     }
   }
 
-  frame1.load(0,ready);
-  frame2.load(1,ready);
+  frame1.load(getNextImage(),ready);
+  frame2.load(getNextImage(),ready);
 
   $w = $( window );
   $w.resize(updateSize);
