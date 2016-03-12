@@ -12,7 +12,7 @@
     "elegant-words": "0.0.6",
     "express": "^4.13.4",
     "pg": "^4.4.6",
-    "unique-wallpaper": "0.0.9",
+    "unique-wallpaper": "0.0.10",
     "random-seed": "^0.3.0"
   }
 }

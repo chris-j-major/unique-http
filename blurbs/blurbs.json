@@ -1,7 +1,6 @@
 {
   "S":[
-    "[Colour] - [Shape]",
-    "[Colour]",
-    "[Shape]"
+    "[Colour] [Colour] [Colour] - [Shape] [Shape] [Shape]",
+    "[Shape]","[Colour]"
   ]
 }
