@@ -6,19 +6,19 @@ words.loadJSONModel( require("./blurbs.json") );
 var image = null;
 
 words.extendModel( 'COLOUR' , function(){
-  return image.keySearch("colour");
+  return image.terms["colour"];
 });
 words.extendModel( 'POINTSET' , function(){
-  return image.keySearch("pointset");
+  return image.terms["pointset"];
 });
 words.extendModel( 'SHAPE' , function(){
-  return image.keySearch("shape");
+  return image.terms["shape"];
 });
 words.extendModel( 'LINE' , function(){
-  return image.keySearch("line");
+  return image.terms["line"];
 });
 words.extendModel( 'SPACIAL' , function(){
-  return image.keySearch("spacial");
+  return image.terms["spacial"];
 });
 
 module.exports = {
