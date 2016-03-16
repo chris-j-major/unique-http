@@ -117,6 +117,22 @@ app.get('/best', function (request, response) {
   });
 });
 
+app.get('/recent', function (request, response) {
+  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
+    if ( err )
+     { console.error(err); return response.send("Error " + err); }
+    client.query('SELECT best FROM results WHERE version=$1 ORDER BY my_timestamp DESC LIMIT 20',[wallpaperVersion], function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       {
+         response.send( result.rows );
+       }
+    });
+  });
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'), " using wallpaper version ", wallpaperVersion);
 });
