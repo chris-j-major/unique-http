@@ -6,7 +6,6 @@ words.loadJSONModel( require("./blurbs.json") );
 var image = null;
 
 words.extendModel( 'COLOUR' , function(){
-  console.log( image.terms );
   var c = image.terms["color"];
   if ( !c || c.length == 0){
     c = image.terms['set-color'];
