@@ -1,0 +1,89 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.29
+4 warn package.json unique-http@0.0.0 No repository field.
+5 warn package.json unique-http@0.0.0 No README data
+6 verbose readDependencies using package.json deps
+7 verbose install where, deps [ '/home/chris/unique-http',
+7 verbose install   [ 'express',
+7 verbose install     'pg',
+7 verbose install     'random-seed',
+7 verbose install     'unique-wallpaper',
+7 verbose install     'elegant-words' ] ]
+8 info preinstall unique-http@0.0.0
+9 verbose readDependencies using package.json deps
+10 verbose cache add [ 'elegant-words@0.0.7', null ]
+11 verbose cache add name=undefined spec="elegant-words@0.0.7" args=["elegant-words@0.0.7",null]
+12 verbose parsed url { protocol: null,
+12 verbose parsed url   slashes: null,
+12 verbose parsed url   auth: null,
+12 verbose parsed url   host: null,
+12 verbose parsed url   port: null,
+12 verbose parsed url   hostname: null,
+12 verbose parsed url   hash: null,
+12 verbose parsed url   search: null,
+12 verbose parsed url   query: null,
+12 verbose parsed url   pathname: 'elegant-words@0.0.7',
+12 verbose parsed url   path: 'elegant-words@0.0.7',
+12 verbose parsed url   href: 'elegant-words@0.0.7' }
+13 verbose cache add name="elegant-words" spec="0.0.7" args=["elegant-words","0.0.7"]
+14 verbose parsed url { protocol: null,
+14 verbose parsed url   slashes: null,
+14 verbose parsed url   auth: null,
+14 verbose parsed url   host: null,
+14 verbose parsed url   port: null,
+14 verbose parsed url   hostname: null,
+14 verbose parsed url   hash: null,
+14 verbose parsed url   search: null,
+14 verbose parsed url   query: null,
+14 verbose parsed url   pathname: '0.0.7',
+14 verbose parsed url   path: '0.0.7',
+14 verbose parsed url   href: '0.0.7' }
+15 verbose addNamed [ 'elegant-words', '0.0.7' ]
+16 verbose addNamed [ '0.0.7', '0.0.7' ]
+17 silly lockFile 263af823-elegant-words-0-0-7 elegant-words@0.0.7
+18 verbose lock elegant-words@0.0.7 /home/chris/.npm/263af823-elegant-words-0-0-7.lock
+19 verbose already installed skipping unique-wallpaper@0.1.1 /home/chris/unique-http
+20 verbose already installed skipping express@^4.13.4 /home/chris/unique-http
+21 verbose already installed skipping pg@^4.4.6 /home/chris/unique-http
+22 verbose already installed skipping random-seed@^0.3.0 /home/chris/unique-http
+23 verbose request where is /elegant-words
+24 verbose request registry https://registry.npmjs.org/
+25 verbose request id f774d5d9a3ab49b2
+26 verbose url raw /elegant-words
+27 verbose url resolving [ 'https://registry.npmjs.org/', './elegant-words' ]
+28 verbose url resolved https://registry.npmjs.org/elegant-words
+29 verbose request where is https://registry.npmjs.org/elegant-words
+30 info trying registry request attempt 1 at 20:45:08
+31 verbose etag "PI4U3WL1Q7TFPFQPPRLVI5HV"
+32 http GET https://registry.npmjs.org/elegant-words
+33 http 304 https://registry.npmjs.org/elegant-words
+34 silly registry.get cb [ 304,
+34 silly registry.get   { date: 'Wed, 16 Mar 2016 20:43:25 GMT',
+34 silly registry.get     via: '1.1 varnish',
+34 silly registry.get     'cache-control': 'max-age=300',
+34 silly registry.get     etag: '"PI4U3WL1Q7TFPFQPPRLVI5HV"',
+34 silly registry.get     age: '0',
+34 silly registry.get     connection: 'keep-alive',
+34 silly registry.get     'x-served-by': 'cache-lhr6326-LHR',
+34 silly registry.get     'x-cache': 'MISS',
+34 silly registry.get     'x-cache-hits': '0',
+34 silly registry.get     'x-timer': 'S1458161005.672151,VS0,VE354',
+34 silly registry.get     vary: 'Accept' } ]
+35 verbose etag https://registry.npmjs.org/elegant-words from cache
+36 silly lockFile 263af823-elegant-words-0-0-7 elegant-words@0.0.7
+37 silly lockFile 263af823-elegant-words-0-0-7 elegant-words@0.0.7
+38 error Error: version not found: elegant-words@0.0.7
+38 error     at /usr/share/npm/lib/cache/add-named.js:125:12
+38 error     at saved (/usr/share/npm/node_modules/npm-registry-client/lib/get.js:167:7)
+38 error     at Object.oncomplete (fs.js:107:15)
+39 error If you need help, you may report this *entire* log,
+39 error including the npm and node versions, at:
+39 error     <http://github.com/npm/npm/issues>
+40 error System Linux 3.16.0-4-amd64
+41 error command "/usr/bin/nodejs" "/usr/bin/npm" "install"
+42 error cwd /home/chris/unique-http
+43 error node -v v0.10.29
+44 error npm -v 1.4.21
+45 verbose exit [ 1, true ]

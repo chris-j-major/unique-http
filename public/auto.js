@@ -38,11 +38,36 @@ function loadNew(){
 
 var toLoadList = [];
 function fetchMore(){
+  var list = [];
   $.get( "best" ,function(data){
-    list = data.map(function(n){return n.best});
-    toLoadList = toLoadList.concat(list);
+    if ( data ){
+      list = data.map(function(n){return n.best});
+    }
+    $.get( "recent" ,function(data){
+      if ( data ){
+        list = list.concat(data.map(function(n){return n.best}));
+      }
+      shuffle(list) ;
+      console.log(list);
+      toLoadList = toLoadList.concat( list );
+    });
   });
 }
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items The array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i -= 1) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
 function getNextImage(){
   var next = 0;
   if ( toLoadList.length > 0 ){
@@ -51,7 +76,6 @@ function getNextImage(){
   if ( toLoadList.length < 3 ){
     fetchMore();
   }
-  console.log(next);
   return next;
 }
 
@@ -80,7 +104,6 @@ $(function(){
   function updateSize() {
     var w = $w.width();
     var h = $w.height();
-    console.log(w,h);
     frame1.setSize(w,h);
     frame2.setSize(w,h);
   }

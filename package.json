@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "elegant-words": "0.0.6",
     "express": "^4.13.4",
     "pg": "^4.4.6",
-    "unique-wallpaper": "0.1.0",
-    "random-seed": "^0.3.0"
+    "random-seed": "^0.3.0",
+    "unique-wallpaper": "0.1.1",
+    "elegant-words": "0.0.7"
   }
 }
