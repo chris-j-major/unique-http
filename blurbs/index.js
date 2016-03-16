@@ -6,7 +6,12 @@ words.loadJSONModel( require("./blurbs.json") );
 var image = null;
 
 words.extendModel( 'COLOUR' , function(){
-  return image.terms["colour"];
+  console.log( image.terms );
+  var c = image.terms["color"];
+  if ( !c || c.length == 0){
+    c = image.terms['set-color'];
+  }
+  return c;
 });
 words.extendModel( 'POINTSET' , function(){
   return image.terms["pointset"];
