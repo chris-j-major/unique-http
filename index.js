@@ -1,8 +1,12 @@
 var express = require('express');
 var pg = require('pg');
-var unique = require('unique-wallpaper')({
-    swatch:false // debug only
-  });
+var Unique = require('unique-wallpaper');
+var unique = new Unique({
+  width:800,
+  height:600,
+  swatch:false // debug only
+});
+
 var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
@@ -15,20 +19,21 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/gen/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'image/svg+xml');
-  var r = new randomSeed(req.params.id);
-  res.send(unique.start(r.random).writeXML( false /* pretty */ ));
+  var image = unique.create( parseInt(req.params.id) );
+  res.send( image.toXML( false ) );
 });
 
 app.get('/details/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
-  var r = new randomSeed(req.params.id);
-  res.send(unique.start(r.random).describe());
+  var image = unique.create( parseInt(req.params.id) );
+  res.send( image.toDescription() );
 });
 
 app.get('/blurb/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var r = new randomSeed(req.params.id);
-  var b = blurbs.toString( r.random , unique.start(r.random) );
+  var image = unique.create( parseInt(req.params.id) );
+  var b = blurbs.toString( r.random , image );
   console.log( req.params.id +" => "+ b );
   res.send( b );
 });
@@ -101,6 +106,22 @@ app.get('/best', function (request, response) {
     if ( err )
      { console.error(err); return response.send("Error " + err); }
     client.query('SELECT best, count(*) AS c FROM results WHERE version=$1 GROUP BY best ORDER BY c DESC LIMIT 20',[wallpaperVersion], function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       {
+         response.send( result.rows );
+       }
+    });
+  });
+});
+
+app.get('/recent', function (request, response) {
+  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
+    if ( err )
+     { console.error(err); return response.send("Error " + err); }
+    client.query('SELECT best FROM results WHERE version=$1 ORDER BY my_timestamp DESC LIMIT 20',[wallpaperVersion], function(err, result) {
       done();
       if (err)
        { console.error(err); response.send("Error " + err); }
