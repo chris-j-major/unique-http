@@ -1,10 +1,107 @@
 {
   "S":[
-    "I have attmpted to [preemotion] the [sense] of [emotion] through my use of [colour1]s and [colour2]s, with [verb][feature] [interaction]ing the [result].",
-    "In this piece I am [preemotion]ing a [sense] of [emotion] by combining [verb] [feature] with a [colouremotion] [colour] palette ",
-    "Here I have [preemotion]ed a [sense] of [emotion] in the process of drawing a [colouremotion] [colour] scheme together with a [verb] [feature] to achieve the [result].",
-    "In this composition I have explored themes of [emotion] by using [colouremotion] [colour]s combined with a [verb] [feature] to [interaction] the emotion."
+  "[firstsentence]  [secondsentence]",
+  "[firstsentence]"
 ],
+
+"FIRSTSENTENCE" :[
+  "[what], [howa] [howjoin] [howb][outcome]s with [verb][feature] [interaction]ing the [result].",
+  "[what], [howa] [howjoin] [howb].",
+  "[what], [howa] [howjoin] [howb] to achieve the [result].",
+  "[what], [howa] [howjoin] [howb] to [interaction] the emotion."
+],
+
+ "SECONDSENTENCE" :[
+   "The image was created by overlaying/masking a series of geometric shapes so that the x can come through",
+   "To achieve this effect I constructed a series of concentric circles, breaking this up with a splash of water by printing and photographing the image to achieve the light diffusion I was aiming for.",
+   "I hope you like the result",
+   "I hope you feel that I was successful in this"
+ ],
+
+"HOWJOIN" :[
+  "and a",
+  "along with a",
+  "and also a",
+  "as well as a",
+  "connected with a",
+  "mixed with a",
+  "composited with a",
+  "linked with a",
+  "conflated with a",
+  "amalgamated with a",
+  "associated with a",
+  "with a",
+  "together with a",
+  "combined with a",
+  "related with a",
+  "contrasted with a",
+  "balanced with a",
+  "foiling a",
+  "opposing a",
+  "so at odds with the",
+  "breaking away from the",
+  "unified with a",
+  "gathered together with a",
+  "assembled with a",
+  "affiliated with a",
+  "mutually arranged with a",
+  "united with a",
+  "differentiated by a",
+  "distinguished with the aid of a",
+  "diverging from a"
+],
+
+"HOWA" :[
+  "through my use of [colour1]" ,
+  "by taking [verb] [feature]",
+  "by employing [verb] [feature]",
+  "in the process of working with a [colouremotion] [colour1] scheme ",
+  "by using [colouremotion] [colour1]s"
+],
+
+"HOWB" :[
+  "[colour2]",
+  "[colouremotion] [colour2] palette",
+  "[verb] [feature]",
+],
+
+"WHAT" :[
+"To [premotion] [emotion]",
+"Here I have [preemotion]ed a [sense] of [emotion]",
+"In this piece I am [preemotion]ing a [sense] of [emotion]",
+"In this composition I have [preemotion]ed themes of [emotion]",
+"As a way of [preemotion]ing [emotion]",
+"In order to [premotion] [emotion]",
+"So as to [preemotion] a [sense] of [emotion]",
+"This piece [preemotion]s a [sense] of [emotion]",
+"I find [preemotion]ing [emotion] a challenge.",
+"I have always found [preemotion]ing [emotion] a challenge.",
+"Try as I might I have never before managed to [preemotion] [emotion] effectively:  This is another attempt to do that.",
+"Allowing myself to [preemotion] [emotion] through my work is important to me.",
+"It has taken me [time] to [preemotion] [emotion]:  You can decide if I have been successful.",
+"for [time] I have tried to [preemotion] [emotion]",
+"[preemotion]ing [emotion] has taken [time] to master.",
+"[preemotion]ing [emotion] has taken [time] for me to explore."
+],
+
+"TIME":[
+  "hours",
+  "days",
+  "weeks",
+  "months",
+  "years",
+  "many discarded canvases",
+  "a great deal of attempts",
+  "much in the way of time",
+  "many attempts",
+  "a good amount of time",
+  "some time",
+  "more time than I would have liked",
+  "as long as I can remember",
+  "countless hours",
+  "a great deal of time (and heartache)"
+],
+
 "SENSE" :[
   "feeling",
   "sense",
@@ -157,7 +254,7 @@
       "lines",
       "recursion",
       "abstractions",
-      "shapes",
+      "[shape]s",
       "forms",
       "architecture",
       "frames",
