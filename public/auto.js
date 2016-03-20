@@ -12,9 +12,11 @@ function Frame( cls ){
   this.image.append($("<img>"));
 }
 Frame.prototype.load = function(seed , f ){
-  this.image.find("img").attr("src","/gen/"+seed);
+  var $img = this.image.find("img");
+  $img.attr("src","/gen/"+seed);
   this.blurb.load("/blurb/"+seed);
-  f();
+  $img.load( f );
+  //f();
 }
 Frame.prototype.setSize = function(){
   this.elem.css("width",frameWidth+"px")
