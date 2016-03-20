@@ -1,3 +1,8 @@
+var frameWidth = 800;
+var frameHeight = 600;
+var screenWidth =1024;
+var screenHeight = 2048;
+var framePos = (screenWidth - frameWidth) * 0.5;
 
 function Frame( cls ){
   this.elem = $("<div>").addClass("frame").addClass(cls);
@@ -11,20 +16,22 @@ Frame.prototype.load = function(seed , f ){
   this.blurb.load("/blurb/"+seed);
   f();
 }
-Frame.prototype.setSize = function(w,h){
-  this.elem.css("width",w+"px");
-  this.elem.css("height",h+"px");
+Frame.prototype.setSize = function(){
+  this.elem.css("width",frameWidth+"px")
+    .css("height",frameHeight+"px")
+    .css("top",((screenHeight-frameHeight)*0.5)+"px");
+
 }
 
 var active = null;
 var inactive = null;
 
 function slideFrames(){
-  inactive.elem.css("left","100%").animate({
-    "left":"0%"
+  inactive.elem.css("left",screenWidth).animate({
+    "left":framePos
   },500);
-  active.elem.css("left","0%").animate({
-    "left":"-100%"
+  active.elem.css("left",framePos).animate({
+    "left":"-"+screenWidth
   },500);
   var t = inactive;
   inactive = active;
@@ -102,10 +109,29 @@ $(function(){
   $w = $( window );
   $w.resize(updateSize);
   function updateSize() {
-    var w = $w.width();
-    var h = $w.height();
-    frame1.setSize(w,h);
-    frame2.setSize(w,h);
+    screenWidth = $w.width();
+    screenHeight = $w.height();
+    if ( (screenWidth > 7016) && (screenHeight > 4961) ){
+      frameWidth = 7016;
+      frameHeight = 4961;
+      $("body").addClass("large").removeClass("small").removeClass("med");
+    }else if ( screenWidth > 2048 && screenHeight > 1448 ){
+      frameWidth = 2048;
+      frameHeight = 1448;
+      $("body").addClass("med").removeClass("small").removeClass("large");
+    }else if ( screenWidth > 1024 && screenHeight > 724 ){
+      frameWidth = 1024;
+      frameHeight = 724;
+      $("body").addClass("med").removeClass("small").removeClass("large");
+    }else{
+      frameWidth = 512;
+      frameHeight = 362;
+      $("body").addClass("small").removeClass("med").removeClass("large");
+    }
+
+    framePos = (screenWidth - frameWidth) * 0.5;
+    frame1.setSize();
+    frame2.setSize();
   }
   updateSize();
 });

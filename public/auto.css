@@ -4,15 +4,17 @@ div.frame {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: white;
+  background-size: 100%;
+  background-color: black;
 }
+
 div.frame div.image {
   position: absolute;
-  width: 50%;
-  height: 50%;
+  top:11.0497237569%;
+  left:11.5234375%;
+  height: 70.1657458564%;
+  width: 62.6953125%;
   background-color: black;
-  top:10%;
-  left:10%;
   overflow: hidden;
 }
 div.frame div.image img {
@@ -20,13 +22,31 @@ div.frame div.image img {
   height: 100%;
 }
 
+body {
+  background-color: black;
+  overflow: hidden;
+}
+body.large div.frame {
+  background-image: url("background.jpg");
+}
+body.med div.frame {
+  background-image: url("background-med.jpg");
+}
+body.small div.frame {
+  background-image: url("background-small.jpg");
+}
+body.xsmall div.frame {
+  background-image: url("background-xsmall.jpg");
+}
+
 div.frame div.blurb {
   position: absolute;
-  width: 20%;
   padding:4px;
   background-color: white;
-  top:70%;
-  left:70%;
+  left:81.640625%;
+  top:53.591160%;
+  width:15.625%;
+  height:35.9116022099%;
   overflow: hidden;
   border:1px solid black;
 }
