@@ -5,20 +5,27 @@ var screenHeight = 2048;
 var framePos = (screenWidth - frameWidth) * 0.5;
 
 function Frame( cls ){
+  var frame = this;
+  this.id = cls;
+  this.onLoad = null;
   this.elem = $("<div>").addClass("frame").addClass(cls);
   this.image = $("<div>").addClass("image");
   var blurbDiv = $("<div>").addClass("blurb");
   this.blurb = $("<span>");
   blurbDiv.append(this.blurb);
   this.elem.append( this.image ).append( blurbDiv );
-  this.image.append($("<img>"));
+  this.image.append($("<img>").load(function(){
+    if ( frame.onLoad ){
+      frame.onLoad();
+    }
+    frame.onLoad = null;
+  }));
 }
 Frame.prototype.load = function(seed , f ){
   var $img = this.image.find("img");
   $img.attr("src","/gen/"+seed);
   this.blurb.load("/blurb/"+seed);
-  $img.load( f );
-  //f();
+  this.onLoad = f;
 }
 Frame.prototype.setSize = function(){
   this.elem.css("width",frameWidth+"px")
@@ -31,6 +38,7 @@ var active = null;
 var inactive = null;
 
 function slideFrames(){
+  console.log("Sliding "+inactive.id)
   inactive.elem.css("left",screenWidth).animate({
     "left":framePos
   },500);
@@ -40,16 +48,11 @@ function slideFrames(){
   var t = inactive;
   inactive = active;
   active = t;
-  busy = false;
   setTimeout( loadNew , 8000 )
 }
 
-var busy = false;
 function loadNew(){
-  if ( !busy ){
-    busy = true;
-    inactive.load( getNextImage()  , slideFrames );
-  }
+  inactive.load( getNextImage()  , slideFrames );
 }
 
 var toLoadList = [];
@@ -64,7 +67,6 @@ function fetchMore(){
         list = list.concat(data.map(function(n){return n.best}));
       }
       shuffle(list) ;
-      console.log(list);
       toLoadList = toLoadList.concat( list );
     });
   });
@@ -112,8 +114,12 @@ $(function(){
     }
   }
 
-  frame1.load(getNextImage(),ready);
-  frame2.load(getNextImage(),ready);
+  $.get( "best" ,function(data){
+    var list = data.map(function(n){return n.best});
+    toLoadList = list;
+    frame1.load(getNextImage(),ready);
+    frame2.load(getNextImage(),ready);
+  });
 
   $w = $( window );
   $w.resize(updateSize);
