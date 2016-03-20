@@ -7,8 +7,10 @@ var framePos = (screenWidth - frameWidth) * 0.5;
 function Frame( cls ){
   this.elem = $("<div>").addClass("frame").addClass(cls);
   this.image = $("<div>").addClass("image");
-  this.blurb = $("<div>").addClass("blurb");
-  this.elem.append( this.image ).append( this.blurb );
+  var blurbDiv = $("<div>").addClass("blurb");
+  this.blurb = $("<span>");
+  blurbDiv.append(this.blurb);
+  this.elem.append( this.image ).append( blurbDiv );
   this.image.append($("<img>"));
 }
 Frame.prototype.load = function(seed , f ){
@@ -38,11 +40,16 @@ function slideFrames(){
   var t = inactive;
   inactive = active;
   active = t;
-  setTimeout( loadNew , 5000 )
+  busy = false;
+  setTimeout( loadNew , 8000 )
 }
 
+var busy = false;
 function loadNew(){
-  inactive.load( getNextImage()  , slideFrames );
+  if ( !busy ){
+    busy = true;
+    inactive.load( getNextImage()  , slideFrames );
+  }
 }
 
 var toLoadList = [];

@@ -49,4 +49,12 @@ div.frame div.blurb {
   height:35.9116022099%;
   overflow: hidden;
   border:1px solid black;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  text-align: center;
+  align-items: center; /* align vertical */
+}
+
+div.frame div.blurb span {
+
 }

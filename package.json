@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "elegant-words": "0.0.7",
+    "elegant-words": "0.0.8",
     "express": "^4.13.4",
     "jsonlint": "^1.6.2",
     "pg": "^4.4.6",
