@@ -1,7 +1,12 @@
 var Words = require('elegant-words');
+var fs = require('fs');
+var jsonlint = require("jsonlint");
 
 var words = new Words();
-words.loadJSONModel( require("./blurbs.json") );
+
+var jsontext = fs.readFileSync("./blurbs/blurbs.json");
+var json = jsonlint.parse(jsontext.toString());
+words.loadJSONModel( json );
 
 var image = null;
 
