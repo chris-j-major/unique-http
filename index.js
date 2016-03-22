@@ -34,7 +34,6 @@ app.get('/blurb/:id(\\d+)', function (req, res) {
   var r = new randomSeed(req.params.id);
   var image = unique.create( parseInt(req.params.id) );
   var b = blurbs.toString( r.random , image );
-  console.log( req.params.id +" => "+ b );
   res.send( b );
 });
 

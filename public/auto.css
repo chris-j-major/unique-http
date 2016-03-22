@@ -53,6 +53,7 @@ div.frame div.blurb {
   justify-content: center; /* align horizontal */
   text-align: center;
   align-items: center; /* align vertical */
+  white-space: pre-wrap; /* keep new lines */
 }
 
 div.frame div.blurb span {
