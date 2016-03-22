@@ -14,10 +14,12 @@ words.loadJSONModel( names );
 
 var image = null;
 
+var banList = ["macaroni and cheese","icky green","dark"];
+
 words.extendModel( 'COLOUR' , function(){
-  var c = image.terms["color"];
+  var c = removeTerms(image.terms["color"],banList);
   if ( !c || c.length == 0){
-    c = image.terms['set-color'];
+    c = removeTerms(image.terms['set-color'],banList);
   }
   return c;
 });
@@ -69,4 +71,15 @@ function parseKeyValueText(data){
     }
   });
   return retval;
+}
+
+function removeTerms( orig , remove ){
+  for ( var id in remove ){
+    var term = remove[id];
+    var index = orig.indexOf(term);
+    if ( index > 0 ){
+      orig.splice(index,1); // remove
+    }
+  }
+  return orig;
 }
