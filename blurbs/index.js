@@ -8,6 +8,10 @@ var jsontext = fs.readFileSync("./blurbs/blurbs.json");
 var json = jsonlint.parse(jsontext.toString());
 words.loadJSONModel( json );
 
+var namestext = fs.readFileSync("./blurbs/names.txt");
+var names = parseKeyValueText( namestext.toString() );
+words.loadJSONModel( names );
+
 var image = null;
 
 words.extendModel( 'COLOUR' , function(){
@@ -47,4 +51,22 @@ module.exports = {
     image = i;
     return words.generate({ random:r }).toString();
   }
+}
+
+function parseKeyValueText(data){
+  var lines = data.replace(/[^- A-Za-z0-9+,.]/,"").split("\n");
+  var re = new RegExp("^ ([A-Z]+) (.+)");
+  var retval = {};
+  lines.map(function(line){
+    var m = re.exec(line);
+    if ( m ){
+      var key = m[1];
+      var value = m[2].toLowerCase();
+      if ( !retval[key] ){
+        retval[key] = [];
+      }
+      retval[key].push( value );
+    }
+  });
+  return retval;
 }

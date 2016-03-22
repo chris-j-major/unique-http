@@ -1,9 +1,15 @@
 {
   "S":[
-  "Name Surname\n[Course], UWE\n[Firstsentence]  [Secondsentence]",
-  "Name Surname\n[Course], UWE\n[Firstsentence]"
+  "[Name] [Surname]\n[Course], UWE\n[Firstsentence]  [Secondsentence]",
+  "[Name] [Surname]\n[Course], UWE\n[Firstsentence]"
 ],
-
+"NAME":[
+  "[NY]",
+  "[LY]"
+],
+"SURNAME":[
+  "[LY]"
+],
 "FIRSTSENTENCE" :[
   "[What] [howa] [howjoin] [howb] [outcome]s with [verb][feature] [interactioning] the [result].",
   "[Whatstop]  [Howa] [howjoin] [howb] [outcome]s with [verb][feature] [interactioning] the [result].",
