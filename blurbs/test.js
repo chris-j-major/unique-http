@@ -8,10 +8,13 @@ var unique = new Unique({
   swatch:false // debug only
 });
 
-for ( var i=0;i<50;i++){
+var i = 0;
+function gen(){
+  i++;
   var r = new randomSeed(i);
   console.log("\n\n== "+i+" ==\n");
   var image = unique.create( i );
   console.log( blurbs.toString( r.random , image ) );
   console.log( image.terms );
 }
+setInterval(gen,2000);
