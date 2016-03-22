@@ -29,6 +29,18 @@ words.extendModel( 'LINE' , function(){
 words.extendModel( 'SPACIAL' , function(){
   return image.terms["spacial"];
 });
+words.extendModel( 'FILTER' , function(){
+  return image.terms["filter"];
+});
+words.extendModel( 'CONCEPT' , function(){
+  return image.terms["concept"];
+});
+words.extendModel( 'SPLIT' , function(){
+  return image.terms["split"];
+});
+words.extendModel( 'SHAPE-COLOUR' , function(){
+  return image.terms["shape-color"];
+});
 
 module.exports = {
   toString:function(r,i){
