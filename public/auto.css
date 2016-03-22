@@ -10,10 +10,10 @@ div.frame {
 
 div.frame div.image {
   position: absolute;
-  top:10.5%;
-  left:11.5234375%;
-  height: 71.4657458564%;
-  width: 63.2953125%;
+  top: 9.5%;
+  left: 10.6%;
+  height: 73%;
+  width: 64.5%;
   background-color: black;
   overflow: hidden;
 }
@@ -40,15 +40,15 @@ body.xsmall div.frame {
 }
 
 div.frame div.blurb {
+  background: transparent;
+  font-family: Sans-Serif;
   position: absolute;
   padding:4px;
-  background-color: white;
-  left:81.640625%;
-  top:53.591160%;
-  width:15.625%;
-  height:35.9116022099%;
+  left:82%;
+  top:53%;
+  width:14%;
+  height:34%;
   overflow: hidden;
-  border:1px solid black;
   display: flex;
   justify-content: center; /* align horizontal */
   text-align: center;

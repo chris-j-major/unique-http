@@ -1,10 +1,10 @@
 {
   "S":[
-  "[Name] [Surname]\n[Course], UWE\n[Firstsentence]  [Secondsentence]",
-  "[Name] [Surname]\n[Course], UWE\n[Firstsentence]"
+  "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]  [Secondsentence]",
+  "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]"
 ],
 "NAME":[
-  "[NY]",
+  "[LN]",
   "[LY]"
 ],
 "SURNAME":[

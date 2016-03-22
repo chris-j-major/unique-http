@@ -10,10 +10,10 @@ function Frame( cls ){
   this.onLoad = null;
   this.elem = $("<div>").addClass("frame").addClass(cls);
   this.image = $("<div>").addClass("image");
-  var blurbDiv = $("<div>").addClass("blurb");
-  this.blurb = $("<span>");
-  blurbDiv.append(this.blurb);
-  this.elem.append( this.image ).append( blurbDiv );
+  this.blurb = $("<div>").addClass("blurb");
+  this.blurbspan = $("<span>");
+  this.blurb.append(this.blurbspan);
+  this.elem.append( this.image ).append( this.blurb );
   this.image.append($("<img>").load(function(){
     if ( frame.onLoad ){
       frame.onLoad();
@@ -22,9 +22,12 @@ function Frame( cls ){
   }));
 }
 Frame.prototype.load = function(seed , f ){
+  var frame = this;
   var $img = this.image.find("img");
   $img.attr("src","/gen/"+seed);
-  this.blurb.load("/blurb/"+seed);
+  this.blurbspan.load("/blurb/"+seed,function(){
+    autoSizeFont( frame.blurb, frame.blurbspan );
+  });
   this.onLoad = f;
 }
 Frame.prototype.setSize = function(){
@@ -32,6 +35,34 @@ Frame.prototype.setSize = function(){
     .css("height",frameHeight+"px")
     .css("top",((screenHeight-frameHeight)*0.5)+"px");
 
+}
+
+var epsilon = 2;
+
+function autoSizeFont( $container , $target , fontSize ){
+  var countdown = 30;
+  fontSize = fontSize || 32;
+  var targetHeight = $container.height();
+  $target.css('font-size', fontSize);
+  autoSizeFactor( 0.5 , (1/0.5) );
+  autoSizeFactor( 0.8 , (1/0.8) );
+  autoSizeFactor( 0.95 , (1/0.95) );
+
+  function autoSizeFactor( less , more ){
+    var delta = targetHeight - $target.height();
+    while( delta > epsilon ){ /* increace */
+      fontSize *= more;
+      $target.css('font-size', fontSize);
+      delta = targetHeight - $target.height();
+      if ( countdown-- < 0 ) return;
+    }
+    while ( delta < -epsilon ){ /* decreace */
+      fontSize *= less;
+      $target.css('font-size', fontSize);
+      delta = targetHeight - $target.height();
+      if ( countdown-- < 0 ) return;
+    }
+  }
 }
 
 var active = null;
@@ -48,7 +79,7 @@ function slideFrames(){
   var t = inactive;
   inactive = active;
   active = t;
-  setTimeout( loadNew , 8000 )
+  setTimeout( loadNew , 30000 )
 }
 
 function loadNew(){
@@ -114,12 +145,14 @@ $(function(){
     }
   }
 
-  $.get( "best" ,function(data){
-    var list = data.map(function(n){return n.best});
-    toLoadList = list;
-    frame1.load(getNextImage(),ready);
-    frame2.load(getNextImage(),ready);
-  });
+  setTimeout(function(){
+    $.get( "best" ,function(data){
+      var list = data.map(function(n){return n.best});
+      toLoadList = list;
+      frame1.load(getNextImage(),ready);
+      frame2.load(getNextImage(),ready);
+    });
+  },100)
 
   $w = $( window );
   $w.resize(updateSize);
