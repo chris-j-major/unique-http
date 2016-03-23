@@ -44,8 +44,17 @@ words.extendModel( 'CONCEPT' , function(){
 words.extendModel( 'SPLIT' , function(){
   return image.terms["split"];
 });
+words.extendModel( 'MASK' , function(){
+  return image.terms["mask"];
+});
+words.extendModel( 'OVERLAY' , function(){
+  return image.terms["overlay"];
+});
 words.extendModel( 'SHAPE-COLOUR' , function(){
   return image.terms["shape-color"];
+});
+words.extendModel( 'TILES' , function(){
+  return image.terms["tiles"];
 });
 
 module.exports = {
