@@ -1,5 +1,23 @@
 {
-  "S":[
+"S":[
+  "[Concept-[concept]]"
+],
+"CONCEPT-MASK":[
+  "using masking","by applying masks"
+],
+"CONCEPT-FILTER":[
+  "using a [filter] filter","by applying filters"
+],
+"CONCEPT-ALPHA":[
+  "with transparency",
+  "with blending"
+],
+"CONCEPT-SPLIT":[
+  "by splitting the imagein the [split] plane",
+  "by dividing the image",
+  "via bisecting the canvas"
+],
+"S-old":[
   "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]  [Secondsentence]",
   "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]"
 ],
