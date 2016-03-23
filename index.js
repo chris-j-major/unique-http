@@ -11,6 +11,7 @@ var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
 
+var wallpaperVersionName = require('./node_modules/unique-wallpaper/package.json').version;
 var wallpaperVersion = Unique.versionIdent;
 
 app.set('port', (process.env.PORT || 5000));
@@ -133,5 +134,5 @@ app.get('/recent', function (request, response) {
 });
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'), " using wallpaper version ", wallpaperVersion);
+  console.log('Node app is running on port', app.get('port'), " using wallpaper version ", wallpaperVersion," from "+wallpaperVersionName);
 });
