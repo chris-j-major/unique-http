@@ -11,7 +11,7 @@ var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
 
-var wallpaperVersion = require('./node_modules/unique-wallpaper/package.json').version;
+var wallpaperVersion = Unique.versionIdent;
 
 app.set('port', (process.env.PORT || 5000));
 
