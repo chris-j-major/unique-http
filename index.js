@@ -27,7 +27,7 @@ app.get('/gen/:id(\\d+)', function (req, res) {
 app.get('/details/:id(\\d+)', function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var image = unique.create( parseInt(req.params.id) );
-  res.send( image.toDescription() );
+  res.send( image.toDescription() +"\n\n"+JSON.stringify(image.terms,2,4) );
 });
 
 app.get('/blurb/:id(\\d+)', function (req, res) {
