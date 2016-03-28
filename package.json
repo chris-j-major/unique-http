@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "5.9.1"
+  },
   "dependencies": {
     "elegant-words": "0.0.9",
     "express": "^4.13.4",
