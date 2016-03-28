@@ -1,5 +1,6 @@
 var express = require('express');
 var pg = require('pg');
+var svg2png = require('svg2png');
 var Unique = require('unique-wallpaper');
 var unique = new Unique({
   width:800,
@@ -19,9 +20,13 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/gen/:id(\\d+)', function (req, res) {
-  res.setHeader('Content-Type', 'image/svg+xml');
+  res.setHeader('Content-Type', 'image/png');
   var image = unique.create( parseInt(req.params.id) );
-  res.send( image.toXML( false ) );
+  var buffer = new Buffer( image.toXML( false ) , "utf-8")
+  //res.send( image.toXML( false ) );
+  svg2png(buffer , { width: 800, height: 600 })
+    .then(function(buffer){ res.send(buffer) })
+    .catch(function(e){res.status(500).send(e)});
 });
 
 app.get('/details/:id(\\d+)', function (req, res) {
