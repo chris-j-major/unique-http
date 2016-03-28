@@ -1,6 +1,7 @@
 var express = require('express');
 var pg = require('pg');
 var svg2png = require('svg2png');
+var CacheControl = require("express-cache-control")
 var Unique = require('unique-wallpaper');
 var unique = new Unique({
   width:800,
@@ -12,6 +13,8 @@ var randomSeed = require('random-seed');
 var blurbs = require('./blurbs');
 var app = express();
 
+var cache = new CacheControl().middleware;
+
 var wallpaperVersionName = require('./node_modules/unique-wallpaper/package.json').version;
 var wallpaperVersion = Unique.versionIdent;
 
@@ -19,7 +22,7 @@ app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/gen/:id(\\d+)', function (req, res) {
+app.get('/gen/:id(\\d+)',  cache("hours", 24), function (req, res) {
   res.setHeader('Content-Type', 'image/png');
   var image = unique.create( parseInt(req.params.id) );
   var buffer = new Buffer( image.toXML( false ) , "utf-8")
@@ -29,13 +32,13 @@ app.get('/gen/:id(\\d+)', function (req, res) {
     .catch(function(e){res.status(500).send(e)});
 });
 
-app.get('/details/:id(\\d+)', function (req, res) {
+app.get('/details/:id(\\d+)',  cache("hours", 24), function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var image = unique.create( parseInt(req.params.id) );
   res.send( image.toDescription() +"\n\n"+JSON.stringify(image.terms,2,4) );
 });
 
-app.get('/blurb/:id(\\d+)', function (req, res) {
+app.get('/blurb/:id(\\d+)',  cache("hours", 24) , function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
   var r = new randomSeed(req.params.id);
   var image = unique.create( parseInt(req.params.id) );
@@ -45,7 +48,7 @@ app.get('/blurb/:id(\\d+)', function (req, res) {
 
 var DEFAULT_DB = "postgres://localhost:5432/results";
 
-app.post('/vote', function (request, response) {
+app.post('/vote',  cache("seconds", 0), function (request, response) {
   pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
     if ( err )
      { console.error(err); return response.send("Error " + err); }
@@ -85,7 +88,7 @@ function getClientIp(req) {
   return ipAddress;
 };
 
-app.get('/data', function (request, response) {
+app.get('/data',  cache("seconds", 0), function (request, response) {
   pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
     if ( err )
      { console.error(err); return response.send("Error " + err); }
@@ -106,7 +109,7 @@ app.get('/data', function (request, response) {
   });
 });
 
-app.get('/best', function (request, response) {
+app.get('/best',  cache("seconds", 30), function (request, response) {
   pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
     if ( err )
      { console.error(err); return response.send("Error " + err); }
@@ -122,7 +125,7 @@ app.get('/best', function (request, response) {
   });
 });
 
-app.get('/recent', function (request, response) {
+app.get('/recent',  cache("seconds", 30), function (request, response) {
   pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
     if ( err )
      { console.error(err); return response.send("Error " + err); }

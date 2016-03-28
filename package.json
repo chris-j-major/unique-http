@@ -11,6 +11,7 @@
   "dependencies": {
     "elegant-words": "0.0.9",
     "express": "^4.13.4",
+    "express-cache-control": "^1.0.2",
     "jsonlint": "^1.6.2",
     "pg": "^4.4.6",
     "pn": "^1.0.0",
