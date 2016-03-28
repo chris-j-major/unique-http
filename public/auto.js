@@ -26,7 +26,7 @@ Frame.prototype.load = function(seed , f ){
   var $img = this.image.find("img");
   $img.attr("src","/gen/"+seed);
   this.blurbspan.load("/blurb/"+seed,function(){
-    autoSizeFont( frame.blurb, frame.blurbspan );
+    ( frame.blurb, frame.blurbspan );
   });
   this.onLoad = f;
 }
@@ -34,20 +34,19 @@ Frame.prototype.setSize = function(){
   this.elem.css("width",frameWidth+"px")
     .css("height",frameHeight+"px")
     .css("top",((screenHeight-frameHeight)*0.5)+"px");
-
+  autoSizeFont( this.blurb, this.blurbspan );
 }
 
 var epsilon = 2;
 
 function autoSizeFont( $container , $target , fontSize ){
   var countdown = 30;
-  fontSize = fontSize || 32;
+  fontSize = (fontSize || 32);
   var targetHeight = $container.height();
   $target.css('font-size', fontSize);
   autoSizeFactor( 0.5 , (1/0.5) );
   autoSizeFactor( 0.8 , (1/0.8) );
   autoSizeFactor( 0.95 , (1/0.95) );
-
   function autoSizeFactor( less , more ){
     var delta = targetHeight - $target.height();
     while( delta > epsilon ){ /* increace */
@@ -69,7 +68,6 @@ var active = null;
 var inactive = null;
 
 function slideFrames(){
-  console.log("Sliding "+inactive.id)
   inactive.elem.css("left",screenWidth).animate({
     "left":framePos
   },500);
@@ -180,6 +178,10 @@ $(function(){
     framePos = (screenWidth - frameWidth) * 0.5;
     frame1.setSize();
     frame2.setSize();
+
+    // set the active and inactive elements directly
+    active.elem.css("left",framePos);
+    inactive.elem.css("left","-"+screenWidth);
   }
   updateSize();
 });
