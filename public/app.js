@@ -11,8 +11,9 @@ $(function(){
       if ( index < n ){
         element.slideUp(200,function(){
           element.data("seed",seed);
+          elemWidth = Math.ceil(element.parent().width()/20)*20;
           var img = element.find("img");
-          img.attr("src","/gen/"+seed).load(function(){
+          img.attr("src","/gen/"+seed+"?width="+elemWidth).load(function(){
             element.find("button").removeAttr('disabled');
             element.slideDown();
           })

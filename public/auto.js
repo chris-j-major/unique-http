@@ -20,15 +20,17 @@ function Frame( cls ){
     }
     frame.onLoad = null;
   }));
+  this.elem.hide(); // start hidden
 }
 Frame.prototype.load = function(seed , f ){
   var frame = this;
   var $img = this.image.find("img");
-  $img.attr("src","/gen/"+seed);
-  this.blurbspan.load("/blurb/"+seed,function(){
-    ( frame.blurb, frame.blurbspan );
-  });
+  $img.attr("src","/gen/"+seed+"?width="+frameWidth);
+  this.blurbspan.load("/blurb/"+seed);
   this.onLoad = f;
+}
+Frame.prototype.prepare = function(){
+  autoSizeFont( this.blurb, this.blurbspan );
 }
 Frame.prototype.setSize = function(){
   this.elem.css("width",frameWidth+"px")
@@ -40,14 +42,17 @@ Frame.prototype.setSize = function(){
 var epsilon = 2;
 
 function autoSizeFont( $container , $target , fontSize ){
-  var countdown = 30;
-  fontSize = (fontSize || 32);
+  fontSize = (fontSize || parseInt($target.css('font-size')) || 32);
   var targetHeight = $container.height();
+  if ( targetHeight < 5 ) return; // skip if sizing is already tiny
   $target.css('font-size', fontSize);
-  autoSizeFactor( 0.5 , (1/0.5) );
-  autoSizeFactor( 0.8 , (1/0.8) );
-  autoSizeFactor( 0.95 , (1/0.95) );
-  function autoSizeFactor( less , more ){
+  if ( $target.text().length < 1 ) return; // skip if we have no text
+  autoSizeFactor( 0.5 );
+  autoSizeFactor( 0.8 );
+  autoSizeFactor( 0.95 );
+  function autoSizeFactor( less  ){
+    var more = 1/less;
+    var countdown = 30;
     var delta = targetHeight - $target.height();
     while( delta > epsilon ){ /* increace */
       fontSize *= more;
@@ -66,23 +71,36 @@ function autoSizeFont( $container , $target , fontSize ){
 
 var active = null;
 var inactive = null;
+var timeout = null;
 
 function slideFrames(){
-  inactive.elem.css("left",screenWidth).animate({
-    "left":framePos
-  },500);
-  active.elem.css("left",framePos).animate({
-    "left":"-"+screenWidth
-  },500);
   var t = inactive;
   inactive = active;
   active = t;
-  setTimeout( loadNew , 30000 )
+
+  active.elem.css({"left":screenWidth}).show().animate({
+    "left":framePos
+  },500);
+  inactive.elem.animate({
+    "left":"-"+screenWidth
+  },500,function(){
+    inactive.elem.hide(); // ready for next incomming
+  });
+  setTimeout(function(){
+    active.prepare(); // mainly does the sizing, but needs to wait untill after we're visible
+  },0);
+  timeout = setTimeout( loadNew , 30000 )
 }
 
 function loadNew(){
-  inactive.load( getNextImage()  , slideFrames );
+  if ( ! timeout ){
+    clearTimeout(timeout);
+    timeout = null;
+  }
+  inactive.load( getNextImage() , slideFrames );
 }
+
+$(document).click( loadNew );
 
 var toLoadList = [];
 function fetchMore(){
@@ -126,13 +144,14 @@ function getNextImage(){
   return next;
 }
 
+// construct two frames (to allow sliding)
+var frame1 = new Frame("frame1");
+var frame2 = new Frame("frame2");
+active = frame1;
+inactive = frame2;
+
 fetchMore();
 $(function(){
-  // construct two frames (to allow sliding)
-  var frame1 = new Frame("frame1");
-  var frame2 = new Frame("frame2");
-  active = frame1;
-  inactive = frame2;
 
   var count = 2;
   function ready(){
@@ -154,6 +173,8 @@ $(function(){
 
   $w = $( window );
   $w.resize(updateSize);
+  $w.ready(updateSize);
+
   function updateSize() {
     screenWidth = $w.width();
     screenHeight = $w.height();
@@ -181,7 +202,7 @@ $(function(){
 
     // set the active and inactive elements directly
     active.elem.css("left",framePos);
-    inactive.elem.css("left","-"+screenWidth);
+    inactive.elem.css("left",screenWidth);
   }
   updateSize();
 });

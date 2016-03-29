@@ -10,43 +10,61 @@ var randomSeed = require('random-seed');
 const ONE_DAY = 86400000;
 const DEFAULT_DB = "postgres://localhost:5432/results";
 
-var unique = new Unique({
-  width:800,
-  height:600,
-  swatch:false // debug only
-});
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 600;
+
+const DEFAULT_RATIO = DEFAULT_HEIGHT / DEFAULT_WIDTH;
+
+var unique;
 
 var db = pgp(process.env.DATABASE_URL||DEFAULT_DB); // database instance;
 var app = express();
 
+var cache = new CacheControl().middleware;
+
 if (app.get('env') == 'production') {
   app.use(morgan('common', { skip: function(req, res) { return res.statusCode < 400 } }));
+  app.use(express.static(__dirname + '/public',{ maxAge: ONE_DAY }) );
+  unique = new Unique({
+    width:DEFAULT_WIDTH,
+    height:DEFAULT_HEIGHT,
+    swatch:false // debug only
+  });
 } else {
   app.use(morgan('dev'));
+  app.use(express.static(__dirname + '/public') );
+  cache = new CacheControl({override:0}).middleware; // no caching
+  unique = new Unique({
+    width:DEFAULT_WIDTH,
+    height:DEFAULT_HEIGHT,
+    swatch:true // debug only
+  });
 }
-
-var cache = new CacheControl().middleware;
 
 var wallpaperVersionName = require('./node_modules/unique-wallpaper/package.json').version;
 var wallpaperVersion = Unique.versionIdent;
 
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static(__dirname + '/public',{ maxAge: ONE_DAY }) );
 
 app.get('/gen/:id(\\d+)',  cache("hours", 24), function (req, res) {
   res.setHeader('Content-Type', 'image/png');
-  var image = unique.create( parseInt(req.params.id) );
-  var buffer = new Buffer( image.toXML( false ) , "utf-8")
-  //res.send( image.toXML( false ) );
-  svg2png(buffer , { width: 800, height: 600 })
+  var id = parseInt(req.params.id);
+  var width = req.query.width || DEFAULT_WIDTH;
+  var height = req.query.height || (width * DEFAULT_RATIO);
+  width = parseInt(width);
+  hiehgt = parseInt(height);
+  var image = unique.create( id , {width:width , height:height /*, subText:""+width+"x"+height */} );
+  var buffer = new Buffer( image.toXML( false ) , "utf-8");
+  svg2png(buffer , { width: width, height: height })
     .then(function(buffer){ res.send(buffer) })
     .catch(function(e){res.status(500).send(e)});
 });
 
-app.get('/details/:id(\\d+)',  cache("hours", 24), function (req, res) {
+app.get('/details/:id(\\d+)', cache("hours", 24), function (req, res) {
   res.setHeader('Content-Type', 'text/plain');
-  var image = unique.create( parseInt(req.params.id) );
+  var id = parseInt(req.params.id);
+  var image = unique.create( id );
   res.send( image.toDescription() +"\n\n"+JSON.stringify(image.terms,2,4) );
 });
 
@@ -75,25 +93,6 @@ app.post('/vote',  cache("seconds", 0), function (request, response) {
       response.send("Error " + err);
     });
 });
-
-function getClientIp(req) {
-  var ipAddress;
-  // Amazon EC2 / Heroku workaround to get real client IP
-  var forwardedIpsStr = req.header('x-forwarded-for');
-  if (forwardedIpsStr) {
-    // 'x-forwarded-for' header may return multiple IP addresses in
-    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
-    // the first one
-    var forwardedIps = forwardedIpsStr.split(',');
-    ipAddress = forwardedIps[0];
-  }
-  if (!ipAddress) {
-    // Ensure getting client IP address still works in
-    // development environment
-    ipAddress = req.connection.remoteAddress;
-  }
-  return ipAddress;
-};
 
 app.get('/data',  cache("seconds", 0), function (request, response) {
   db.query('SELECT * FROM results WHERE version=$1',[wallpaperVersion])
@@ -136,3 +135,24 @@ app.get('/recent',  cache("seconds", 30), function (request, response) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'), " using wallpaper version ", wallpaperVersion," from "+wallpaperVersionName);
 });
+
+
+
+function getClientIp(req) {
+  var ipAddress;
+  // Amazon EC2 / Heroku workaround to get real client IP
+  var forwardedIpsStr = req.header('x-forwarded-for');
+  if (forwardedIpsStr) {
+    // 'x-forwarded-for' header may return multiple IP addresses in
+    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
+    // the first one
+    var forwardedIps = forwardedIpsStr.split(',');
+    ipAddress = forwardedIps[0];
+  }
+  if (!ipAddress) {
+    // Ensure getting client IP address still works in
+    // development environment
+    ipAddress = req.connection.remoteAddress;
+  }
+  return ipAddress;
+};
