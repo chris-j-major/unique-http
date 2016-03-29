@@ -1,17 +1,29 @@
 var express = require('express');
-var pg = require('pg');
+var morgan = require("morgan");
+var pgp = require('pg-promise')(/*options*/);
 var svg2png = require('svg2png');
 var CacheControl = require("express-cache-control")
 var Unique = require('unique-wallpaper');
+var blurbs = require('./blurbs');
+var randomSeed = require('random-seed');
+
+const ONE_DAY = 86400000;
+const DEFAULT_DB = "postgres://localhost:5432/results";
+
 var unique = new Unique({
   width:800,
   height:600,
   swatch:false // debug only
 });
 
-var randomSeed = require('random-seed');
-var blurbs = require('./blurbs');
+var db = pgp(process.env.DATABASE_URL||DEFAULT_DB); // database instance;
 var app = express();
+
+if (app.get('env') == 'production') {
+  app.use(morgan('common', { skip: function(req, res) { return res.statusCode < 400 } }));
+} else {
+  app.use(morgan('dev'));
+}
 
 var cache = new CacheControl().middleware;
 
@@ -20,7 +32,7 @@ var wallpaperVersion = Unique.versionIdent;
 
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public',{ maxAge: ONE_DAY }) );
 
 app.get('/gen/:id(\\d+)',  cache("hours", 24), function (req, res) {
   res.setHeader('Content-Type', 'image/png');
@@ -46,27 +58,22 @@ app.get('/blurb/:id(\\d+)',  cache("hours", 24) , function (req, res) {
   res.send( b );
 });
 
-var DEFAULT_DB = "postgres://localhost:5432/results";
 
 app.post('/vote',  cache("seconds", 0), function (request, response) {
-  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
-    if ( err )
-     { console.error(err); return response.send("Error " + err); }
-    var best = request.query.best;
-    var bad1 = request.query.bad1;
-    var bad2 = request.query.bad2;
-    var ip = getClientIp(request);
-    var pos = request.query.pos;
-    client.query('INSERT INTO results(best,bad1,bad2,ip,version,position) VALUES ($1,$2,$3,$4,$5,$6)', [best,bad1,bad2,ip,wallpaperVersion,pos] , function(err) {
-      done();
-      if (err){
-        console.error(err);
-        response.send("Error " + err);
-      }else{
-        response.send("OK");
-      }
+  var best = request.query.best;
+  var bad1 = request.query.bad1;
+  var bad2 = request.query.bad2;
+  var ip = getClientIp(request);
+  var pos = request.query.pos;
+
+  db.query('INSERT INTO results(best,bad1,bad2,ip,version,position) VALUES ($1,$2,$3,$4,$5,$6)', [best,bad1,bad2,ip,wallpaperVersion,pos])
+    .then(function (data) {
+      response.send("OK");
+    })
+    .catch(function (error) {
+      console.error(err);
+      response.send("Error " + err);
     });
-  });
 });
 
 function getClientIp(req) {
@@ -89,56 +96,41 @@ function getClientIp(req) {
 };
 
 app.get('/data',  cache("seconds", 0), function (request, response) {
-  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
-    if ( err )
-     { console.error(err); return response.send("Error " + err); }
-    client.query('SELECT * FROM results', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       {
-         var str = "best,bad,bad,ip,timestamp\n";
-         for ( var rowid in result.rows ){
-           var r = result.rows[rowid];
-           str+= r.best+","+r.bad1+","+r.bad2+","+r.ip+","+r.my_timestamp+","+r.version+","+r.position+"\n";
-         }
-         response.attachment('data.csv').send(str);
-       }
+  db.query('SELECT * FROM results WHERE version=$1',[wallpaperVersion])
+    .then(function (data) {
+      var str = "best,bad,bad,ip,timestamp\n";
+      for ( var rowid in data ){
+        var r = data[rowid];
+        str+= r.best+","+r.bad1+","+r.bad2+","+r.ip+","+r.my_timestamp+","+r.version+","+r.position+"\n";
+      }
+      response.attachment('data.csv').send(str);
+    })
+    .catch(function (error) {
+      console.error(err);
+      response.send("Error " + err);
     });
-  });
 });
 
 app.get('/best',  cache("seconds", 30), function (request, response) {
-  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
-    if ( err )
-     { console.error(err); return response.send("Error " + err); }
-    client.query('SELECT best, count(*) AS c FROM results WHERE version=$1 GROUP BY best ORDER BY c DESC LIMIT 20',[wallpaperVersion], function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       {
-         response.send( result.rows );
-       }
+  db.query('SELECT best, count(*) AS c FROM results WHERE version=$1 GROUP BY best ORDER BY c DESC LIMIT 20',[wallpaperVersion])
+    .then(function (data) {
+      response.send(data);
+    })
+    .catch(function (error) {
+      console.error(err);
+      response.send("Error " + err);
     });
-  });
 });
 
 app.get('/recent',  cache("seconds", 30), function (request, response) {
-  pg.connect(process.env.DATABASE_URL||DEFAULT_DB, function(err, client, done) {
-    if ( err )
-     { console.error(err); return response.send("Error " + err); }
-    client.query('SELECT best FROM results WHERE version=$1 ORDER BY my_timestamp DESC LIMIT 20',[wallpaperVersion], function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       {
-         response.send( result.rows );
-       }
+  db.query('SELECT best FROM results WHERE version=$1 ORDER BY my_timestamp DESC LIMIT 20',[wallpaperVersion])
+    .then(function (data) {
+      response.send(data);
+    })
+    .catch(function (error) {
+      console.error(err);
+      response.send("Error " + err);
     });
-  });
 });
 
 app.listen(app.get('port'), function() {
