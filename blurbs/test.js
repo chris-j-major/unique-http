@@ -15,6 +15,6 @@ function gen(){
   console.log("\n\n== "+i+" ==\n");
   var image = unique.create( i );
   console.log( blurbs.toString( r.random , image ) );
-  console.log( image.terms );
+//  console.log( image.terms );
 }
 setInterval(gen,2000);

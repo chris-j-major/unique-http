@@ -56,6 +56,10 @@ words.extendModel( 'SHAPE-COLOUR' , function(){
 words.extendModel( 'TILES' , function(){
   return image.terms["tiles"];
 });
+words.extendModel( 'PALLETE' , function(){
+  return image.terms["pallete"];
+});
+
 
 module.exports = {
   toString:function(r,i){
