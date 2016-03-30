@@ -14,7 +14,7 @@ words.loadJSONModel( names );
 
 var image = null;
 
-var banList = ["macaroni and cheese","icky green","dark"];
+var banList = ["macaroni and cheese","icky green","dark","barny"];
 
 words.extendModel( 'COLOUR' , function(){
   var c = removeTerms(image.terms["color"],banList);
