@@ -1,24 +1,34 @@
 {
-"S":[
+"S-old":[
   "[Concept-[concept]]"
 ],
 "CONCEPT-MASK":[
-  "using masking","by applying masks"
+  "masking",
+  "applying masks",
+  "the application of masks"
 ],
 "CONCEPT-FILTER":[
-  "using a [filter] filter","by applying filters"
+  "a [filter] filter",
+  "applying filters"
 ],
 "CONCEPT-ALPHA":[
-  "with transparency",
-  "with blending"
+  "transparency",
+  "blending"
 ],
 "CONCEPT-SPLIT":[
-  "by splitting the imagein the [split] plane",
-  "by dividing the image",
-  "via bisecting the canvas"
+  "splitting the image in the [split] plane",
+  "dividing the image",
+  "[verb] bisection of the canvas"
 ],
-"S-old":[
+
+"BY":[
+"by means of",
+"with"
+],
+
+"S":[
   "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]  [Secondsentence]",
+    "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]  [Secondsentence]",
   "<b>[Name] [Surname]</b>\n<i>[Course], UWE</i><hr>[Firstsentence]"
 ],
 "NAME":[
@@ -30,20 +40,34 @@
 ],
 "FIRSTSENTENCE" :[
   "[What] [howa] [howjoin] [howb] [outcome]s with [verb][feature] [interactioning] the [result].",
-  "[Whatstop]  [Howa] [howjoin] [howb] [outcome]s with [verb][feature] [interactioning] the [result].",
-  "[What] [howa] [howjoin] [howb].",
-  "[Whatstop]  [Howa] [howjoin] [howb].",
+  "[Whatstop]  [Idothis] [howa] [howjoin] [howb] [outcome]s with [verb][feature] [interactioning] the [result].",
+  "[What] [howa] [howjoin] [howb] to create the effect.",
+  "[Whatstop]  [Idothis] [howa] [howjoin] [howb] so as to produce the viewer response.",
   "[What] [howa] [howjoin] [howb] I achieve the [result].",
-  "[Whatstop]  [Howa] [howjoin] [howb] I achieve the [result].",
-  "[What] [howa] [howjoin] [howb] through which I [interaction] the emotion.",
-  "[Whatstop]  [Howa] [howjoin] [howb] by which I [interaction] the emotion."
+  "[Whatstop]  [Idothis] [howa] [howjoin] [howb] I achieve the [result].",
+  "[What] [howa] [howjoin] [howb] through which I [interaction] my message.",
+  "[Whatstop]  [Idothis] [howa] [howjoin] [howb] by which I [interaction] my communication to you."
 ],
 
  "SECONDSENTENCE" :[
-   "The image was created by [concept]ing a series of geometric shapes so that the x can come through",
-   "To achieve this effect I constructed a series of concentric circles, breaking this up with a splash of water by printing and photographing the image to achieve the light diffusion I was aiming for.",
-   "I hope you like the result of [concept].",
-   "I hope you feel that I was successful in this."
+   "The image was created using a [concept] so that the [result] can come through",
+   "To achieve this effect I constructed a [pointset] of [shape]s, breaking this up with a splash of water by printing and photographing the image to achieve the light diffusion I was aiming for.",
+   "I hope you like the result.",
+   "In order to do so I wrote '[spacial]' repeatedly until I felt [disorder], when I turned to my canvas.",
+   "I hope you feel that I was successful in this.",
+   "I hope you agree that I was successful in this with my [pointset] configuration of [shape]s.",
+   "[idothis] [by] using [colouremotion] [feature]",
+   "[idothis] [by] [concept-[concept]]",
+   "[idothis] [by] [spacial] [shape]s arrayed on the canvas"
+ ],
+
+ "DISORDER" :[
+   "disgraphic",
+   "dispairing",
+   "thoroughly bored",
+   "faintly suicidal",
+   "elated",
+   "the craving to move on"
  ],
 
 "COURSE" :[
@@ -85,25 +109,36 @@
   "diverging from"
 ],
 
+"IDOTHIS" :[
+  "i do this",
+  "i attempt this",
+  "i reach for this",
+  "i approach this",
+  "i contrive this"
+],
+
 "HOWA" :[
   "through my use of [colour1]" ,
   "by taking [verb] [feature]",
   "by employing [verb] [feature]",
   "in the process of working with [colouremotion] [colour1] colour schemes",
-  "by using [colouremotion] [colour1]s"
+  "by using [colouremotion] [colour1]s",
+  "by using a [pallete] pallete of [colour1]s"
 ],
 
 "HOWB" :[
   "[colour2]",
   "a [colouremotion] [colour2] palette",
-  "[verb] [feature]"
+  "[verb] [feature]",
+  "a [pallete] pallete of [colour2]"
 ],
 
 "WHATSTOP" :[
   "Working to [premotion] [emotion] has taken [time] to master.",
   "Despite my interest, capturing [premotion] [emotion] has taken [time] for me to explore.",
-  "I find that trying to [premotion] [emotion] is a challenge.",
-  "I have always found that working to [premotion] [emotion] is a challenge.",
+  "I find that trying to [premotion] [emotion] is a challenge in my artwork.",
+  "I find that trying to [premotion] [emotion] is a challenge in this medium.",
+  "I have always found that working to [premotion] [emotion] is a challenge for abstract work.",
   "Try as I might I have never before managed to [premotion] [emotion] effectively:  This is another attempt to do that.",
   "Allowing myself to [premotion] [emotion] through my work is important to me.",
   "It has taken me [time] to [premotion] [emotion]:  You can decide if I have been successful."
@@ -226,15 +261,7 @@
     "revulsion",
     "a sense of the divine"
   ],
-  "AUTHOR":[
-    "artist",
-    "so called 'artist'",
-    "celebrated artist"
-  ],
-  "TITLE":[
-    "untitled [number]",
-    "[emotion]-[emotion]"
-  ],
+
   "NUMBER":[
     "[NONZERO][DIGITS][DIGITS][DIGITS]",
     "[NONZERO][DIGITS][DIGITS]",
@@ -293,6 +320,11 @@
       "abstractions",
       "[shape]s",
       "forms",
+      "[spacial] [shape]s",
+      "[spacial] [shape]s",
+      "[spacial] [shape]s",
+      "[spacial] [shape]s",
+      "[split] [shape]s",
       "architectures",
       "frames",
       "configurations",
@@ -334,7 +366,7 @@
       "distress",
       "bisect",
       "disturb",
-      "discompose",
+      "decompose",
       "muddle",
       "unsettle",
       "muddy",
@@ -408,7 +440,7 @@
       "vivid",
       "watery",
       "faded",
-      "a riot of",
+      "riot of",
       "natural",
       "clear",
       "distinctive",
